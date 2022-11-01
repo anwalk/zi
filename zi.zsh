@@ -159,6 +159,7 @@ if [[ -z $SOURCED && ( ${+terminfo} -eq 1 && -n ${terminfo[colors]} ) || ( ${+te
   col-ice     $'\e[38;5;39m'       col-ok      $'\e[38;5;220m'      col-bcmd    $'\e[38;5;220m'
   col-id-as   $'\e[4;38;5;220m'    col-opt     $'\e[38;5;82m'
   col-bapo    $'\e[1;39;5;220m'    col-quos    $'\e[1;38;5;160m'
+  col-flag  $'\e[1;3;38;5;79m'     col-pkg     $'\e[1;3;38;5;27m'
   col-mdsh  $'\e[1;38;5;220m'"${${${(M)LANG:#*UTF-8*}:+–}:--}"$'\e[0m'
   col-mmdsh $'\e[1;38;5;220m'"${${${(M)LANG:#*UTF-8*}:+――}:--}"$'\e[0m'
   col-↔     ${${${(M)LANG:#*UTF-8*}:+$'\e[38;5;82m↔\e[0m'}:-$'\e[38;5;82m«-»\e[0m'}
@@ -1046,6 +1047,10 @@ builtin setopt noaliases
     command chmod go-w "${ZI[HOME_DIR]}"
     # Also set up */bin and ZPFX in general.
     command mkdir 2>/dev/null -p $ZPFX/bin
+  }
+  [[ ! -f $ZPFX/share/config.site ]] || {
+    command mkdir -p $ZPFX/share
+    command cp $ZI[BIN_DIR]/lib/templates/gnu/autoconf/config.site $ZPFX/share
   }
   [[ ! -d ${ZI[ZMODULES_DIR]} ]] && {
     command mkdir -p "${ZI[ZMODULES_DIR]}"
